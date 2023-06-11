@@ -7,6 +7,7 @@ import Home from "./Pages/Home"
 import MyList from "./Pages/MyList";
 import Login from "./Pages/Login";
 import Products from "./Pages/Products";
+import Brands from "./Pages/Brands"
 import AdminPage from "./Pages/AdminPage";
 import NoPage from "./Pages/NoPage";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -30,6 +31,8 @@ function App() {
           <Route path="MyList" element={<MyList />} />
           <Route path="Login" element={<Login />} />
           <Route path="Products" element={<Products />} />
+          <Route path="Brands" element={<Brands />} />
+
           <Route path="Register" element={<Register />} />
           <Route path="Admin" element={<AdminPage/>}></Route>
 

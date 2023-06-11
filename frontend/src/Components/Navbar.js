@@ -106,6 +106,9 @@ const Navbar = () => {
           <LinkS to='/Products' className="nav-link "  >Products</LinkS>
         </li>
         <li className="nav-item">
+          <LinkS to='/Brands' className="nav-link "  >Brands</LinkS>
+        </li>
+        <li className="nav-item">
           <LinkS to='/MyList' className="nav-link " >MyList</LinkS>
         </li>
          

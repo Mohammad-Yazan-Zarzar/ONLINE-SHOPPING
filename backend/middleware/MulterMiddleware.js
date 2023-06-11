@@ -8,8 +8,8 @@ const fs = require("fs");
 
 const storage=multer.diskStorage({
     destination:asyncHandler(async(req,file,cb)=>{
-        const balayAudPath = `public/${req.body.brandName}`
-
+        const balayAudPath = `backend/public/${req.body.brandName}`
+        console.log('body',req.body)
         fs.mkdirSync(balayAudPath, { recursive: true })
         // cb(null,"public/")
         cb(null,balayAudPath)
@@ -32,6 +32,8 @@ const fileFilter=(req,file,cb)=>{
         cb(null,false)
     }
 }
+
+
 const uploadMiddleware=multer({storage})
 console.log('done')
-module.exports=uploadMiddleware
+module.exports={uploadMiddleware}

@@ -13,6 +13,16 @@ const userSchema=mongoose.Schema({
         type:String,
         required:[true,'please add an email'],
         unique:true
-    }
+    },
+    orders:[
+        {
+            'productId':String
+        }
+    ]
+    // orders:[{
+    //     type:mongoose.Schema.Types.ObjectId,
+    //     required:true,
+    //     ref:'Products'
+    // }],
 },{timestamps:true})
 module.exports=mongoose.model('User',userSchema)

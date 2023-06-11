@@ -2,7 +2,7 @@
   --mainColor:#edf6f9;
   --secondeColor:#006d77;
   margin: 0px;
-  padding: 0px;
+  padding: 0px ;
 }
 
 
@@ -18,9 +18,26 @@ body {
   font-family: 'Montserrat Alternates', sans-serif;
   font-family: 'Nunito', sans-serif;
   font-family: 'Poppins', sans-serif;
+  background-image: url(images/HomeBackground.jpg);
+  background-size:cover ;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+/* ........ */
+body::-webkit-scrollbar {
+  width: 3px;
+  height: 6px;
+}
+ 
+body::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+ 
+body::-webkit-scrollbar-thumb {
+  background-color: darkgrey;
+  outline: 1px solid slategrey;
+}
+/* ........ */

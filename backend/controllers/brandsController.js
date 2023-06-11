@@ -1,8 +1,12 @@
 const { text } = require('express')
 const Brands=require('../models/brandModel')
+const Products=require('../models/productsModel')
+
 const asyncHandler=require('express-async-handler')
 const User=require('../models/userModel')
 const uploadMiddleware=require('../middleware/MulterMiddleware')
+const fs = require('fs')
+
 
 const getBrands=asyncHandler(async(req,res)=>{
     const allBrands=await Brands.find().sort({createdAt:"descending"})
@@ -29,7 +33,9 @@ const setBrand=asyncHandler(async(req,res)=>{
     const brand =await Brands.create({
         brandName:req.body.brandName,
         brandLogo:req.file.filename,
-        brandContacts:req.body.contactNumber
+        brandContacts:req.body.contactNumber,
+        brandClass:req.body.brandClass
+        
 
     })
     res.status(200).json(brand)
@@ -66,19 +72,24 @@ const deleteBrand=asyncHandler(async(req,res)=>{
         res.status(400)
         throw new Error('brand not found')
     }
-    // const user=await User.findById(req.user.id)
-    // // check user
-    // if(!user){
-    //     res.status(400)
-    //     throw new Error('User not found')
-
-    // }
-    // if(product.user.toString()!==user.id){
-    //     res.status(400)
-    //     throw new Error('User not fauthorize')
-
-    // }
+   
     const deleteBrand=await Brands.findByIdAndRemove(req.params.id,req.body,{new:true})
+    const deleteBrandProducts=await Products.deleteMany({brand:req.params.id},{new:true})
+    console.log('products Breand',deleteBrandProducts)
+
+    // ----------------
+    // directory path
+    const dir = `backend/public/${deleteBrand.brandName}`
+
+    // delete directory recursively
+    fs.rmdir(dir, { recursive: true }, err => {
+    if (err) {
+        throw err
+    }
+
+    console.log(`${dir} is deleted!`)
+    })
+    // ----------------
     res.status(200).json(deleteBrand)
     
     // res.status(200).json({message:`Update products ${req.params.id}`})

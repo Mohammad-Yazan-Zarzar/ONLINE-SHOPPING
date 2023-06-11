@@ -4,7 +4,14 @@ import styled, { keyframes } from 'styled-components'
 import BlobSvg from './blobanimation.svg'
 import HomeImage1 from '../images/HomeBackground.jpg'
 import List from '../Components/List'
-import { style } from '@mui/system'
+import {useSelector,useDispatch}from 'react-redux';
+import{reset,insertBrand,getBrands,deleteBrand} from '../features/Brands/brandsSlice'
+import { useEffect } from 'react'
+import { Link } from "react-router-dom";
+import { getProducts,getProductByClass } from '../features/Products/productSlice'
+import { useState } from 'react'
+
+// import { style } from '@mui/system'
 // const HomeImage='../'
 const HomeBody=styled.div`
   margin:0px;
@@ -91,10 +98,24 @@ const Section2=styled.div`
     /* background-color:#222 ; */
     width:100%;
     text-align:center;
-    height: 500px;
+    min-height: 400px;
 `
 
 export const Home = () => {
+  const[tea,setTea]=useState('')
+  const dispatch=useDispatch()
+
+  useEffect(()=>{
+    dispatch(getBrands())
+    dispatch(getProducts())
+    setTea(products.filter(x=>x.productClass==='Tea'))
+    console.log('tea',tea)
+
+
+  },[])
+  const{newProduct,deletedProduct,products,isLoadingProduct,isErrorProduct,isSuccessProduct,messageP}=useSelector((state)=>state.product)
+  const{newBrand,deletedBrand,brands,isLoading,isError,isSuccess,message}=useSelector((state)=>state.brand)
+
   return (
     <>
       <HomeBody className='' >
@@ -111,18 +132,90 @@ export const Home = () => {
 
         </Section1>
         <Section2>
-            <h3>Specalist products</h3>
-            <List></List>
+            <h3> Tea </h3>
+            {/* <h4>++{products.find(x=>x.productClass==='Cofee').productName}</h4> */}
+            <List items={products.filter(x=>x.productClass==='Tea').slice(0,9)} isLoading={isLoadingProduct} isBrand={false}></List>
+            <Link to='/Products'onClick={()=> dispatch(getProductByClass('Tea')) }>
+              <button className='btn btn-primary' >All Tea Products</button>
 
+            </Link>
+        </Section2>
+
+        <br></br>
+        <Section2>
+            <h3> Cofee </h3>
+            {/* <h4>++{products.find(x=>x.productClass==='Cofee').productName}</h4> */}
+            <List items={products.filter(x=>x.productClass==='Cofee').slice(0,9)} isLoading={isLoadingProduct} isBrand={false}></List>
+          
+            <Link to='/Products' onClick={()=> dispatch(getProductByClass('Cofee')) }>
+              <button className='btn btn-primary' >All Cofee Products</button>
+
+            </Link>
+        </Section2>
+        <br></br>
+        <Section2>
+            <h3> Nuts </h3>
+            {/* <h4>++{products.find(x=>x.productClass==='Cofee').productName}</h4> */}
+            <List items={products.filter(x=>x.productClass==='Nuts').slice(0,9)} isLoading={isLoadingProduct} isBrand={false}></List>
+            <Link to='/Products'onClick={()=> dispatch(getProductByClass('Nuts')) }>
+              <button className='btn btn-primary' >All Nuts Products</button>
+
+            </Link>
+        </Section2>
+        <br></br>
+        <Section2>
+            <h3> Chips </h3>
+            {/* <h4>++{products.find(x=>x.productClass==='Cofee').productName}</h4> */}
+            <List items={products.filter(x=>x.productClass==='Chips').slice(0,9)} isLoading={isLoadingProduct} isBrand={false}></List>
+            <Link to='/Products'onClick={()=> dispatch(getProductByClass('Chips')) }>
+              <button className='btn btn-primary' >All Chips Products</button>
+
+            </Link>
+        </Section2>
+        <br></br>
+        <Section2>
+            <h3> Sweets </h3>
+            {/* <h4>++{products.find(x=>x.productClass==='Cofee').productName}</h4> */}
+            <List items={products.filter(x=>x.productClass==='Sweets').slice(0,9)} isLoading={isLoadingProduct} isBrand={false}></List>
+            <Link to='/Products'onClick={()=> dispatch(getProductByClass('Sweets')) }>
+              <button className='btn btn-primary' >All Sweets Products</button>
+
+            </Link>
+        </Section2>
+        <br></br>
+        <Section2>
+            <h3> Dates </h3>
+            {/* <h4>++{products.find(x=>x.productClass==='Cofee').productName}</h4> */}
+            <List items={products.filter(x=>x.productClass==='Dates').slice(0,9)} isLoading={isLoadingProduct} isBrand={false}></List>
+            <Link to='/Products'onClick={()=> dispatch(getProductByClass('Dates')) }>
+              <button className='btn btn-primary' >All Dates Products</button>
+
+            </Link>
+        </Section2>
+        <br></br>
+        <Section2>
+            <h3> Supplies for restaurants and shops </h3>
+            {/* <h4>++{products.find(x=>x.productClass==='Cofee').productName}</h4> */}
+            <List items={products.filter(x=>x.productClass==='Supplies for restaurants and shops').slice(0,9)} isLoading={isLoadingProduct} isBrand={false}></List>
+            <Link to='/Products'onClick={()=> dispatch(getProductByClass('Supplies for restaurants and shops')) }>
+              <button className='btn btn-primary' >All Supplies for restaurants and shops Products</button>
+
+            </Link>
+        </Section2>
+        <br></br>
+        <Section2>
+            <h3>Brands</h3>
+            <List items={brands.slice(0,9)} isLoading={isLoading} isBrand={true} ></List>
+            <Link to='/Brands'>
+              <button className='btn btn-primary' >All Brands</button>
+
+            </Link>
         </Section2>
 
         <br></br>
         <br></br>
         
-        <br></br>
-        <br></br>
-
-        <br></br>
+       
       </HomeBody>
 
     </>

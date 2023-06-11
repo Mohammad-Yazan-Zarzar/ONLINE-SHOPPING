@@ -72,8 +72,21 @@ const loginUser=asyncHandler(async(req,res)=>{
 const getMe=asyncHandler(async(req,res)=>{
     res.status(200).json(req.user)
 })
+const orderUser=asyncHandler(async(req,res)=>{
+    const order=await User.findById(req.body.userID)
+
+    // console.log(req.body)
+    if(!order){
+        res.status(400)
+        throw new Error('order not found')
+    }
+    order.orders.push({'ProductId':req.body.productID})
+    console.log(order.orders)
+    res.status(200).json(req.user.order)
+})
 module.exports={
     registerUser,
     loginUser,
-    getMe
+    getMe,
+    orderUser
 }

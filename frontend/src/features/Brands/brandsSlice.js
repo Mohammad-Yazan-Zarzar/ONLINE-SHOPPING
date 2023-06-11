@@ -1,7 +1,9 @@
 import { createSlice,createAsyncThunk } from "@reduxjs/toolkit";
 import brandService from "./brandsService";
 const initialState={
-    brands:null,
+    newBrand:null,
+    deletedBrand:null,
+    brands:[],
     isError:false,
     isSuccess:false,
     isLoading:false,
@@ -11,7 +13,8 @@ export const insertBrand=createAsyncThunk(
     'brand/insertBrand',
     async(brand,thunkAPI)=>{
         try{
-            return await brandService.insertBrand(brand)
+            const adminToken=thunkAPI.getState().authAdmin.admin.adminToken
+            return await brandService.insertBrand(brand,adminToken)
         }catch(error){
             const message=(error.response&&error.response.data && error.response.data.message)||
                 error.message||error.toString()
@@ -31,12 +34,28 @@ export const getBrands=createAsyncThunk(
         }
     }
 )
+export const deleteBrand=createAsyncThunk(
+    'brand/deleteBrand',
+    async(_id,thunkAPI)=>{
+        try{
+            const adminToken=thunkAPI.getState().authAdmin.admin.adminToken
+
+            return await brandService.deleteBrand(_id,adminToken)
+        }catch(error){
+            const message=(error.response&&error.response.data && error.response.data.message)||
+                error.message||error.toString()
+            return thunkAPI.rejectWithValue(message)
+        }
+    }
+)
 export const brandSlice=createSlice({
     name:'brand',
     initialState,
     reducers:{
         reset:(state)=>{
             // eslint-disable-next-line no-unused-expressions
+            state.newBrand=null
+            state.deletedBrand=null
             state.isLoading=false
             state.isError=false
             state.isSuccess=false
@@ -50,26 +69,39 @@ export const brandSlice=createSlice({
                 .addCase(insertBrand.fulfilled,(state,action)=>{
                     state.isLoading=false
                     state.isSuccess=true
-                    state.brands=action.payload
+                    state.newBrand=action.payload
                 })
                 .addCase(insertBrand.rejected,(state,action)=>{
                     state.isLoading=false
                     state.isError=true
                     state.message=action.payload
-                    state.brands=null
+                    state.newBrand=[]
                 })
                 .addCase(getBrands.pending,(state)=>{
                     state.isLoading=true})
                 .addCase(getBrands.fulfilled,(state,action)=>{
                         state.isLoading=false
-                        state.isSuccess=true
+                        // state.isSuccess=true
                         state.brands=action.payload
                     })
                 .addCase(getBrands.rejected,(state,action)=>{
                         state.isLoading=false
                         state.isError=true
                         state.message=action.payload
-                        state.brands=null
+                        state.brands=[]
+                    })
+                .addCase(deleteBrand.pending,(state)=>{
+                    state.isLoading=true})
+                .addCase(deleteBrand.fulfilled,(state,action)=>{
+                        state.isLoading=false
+                        state.isSuccess=true
+                        state.deletedBrand=action.payload
+                    })
+                .addCase(deleteBrand.rejected,(state,action)=>{
+                        state.isLoading=false
+                        state.isError=true
+                        state.message=action.payload
+                        state.deletedBrand=[]
                     })
 
 
