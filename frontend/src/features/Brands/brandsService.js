@@ -1,5 +1,5 @@
 import axios from 'axios';
-const API_URL='/api/brands/';
+const API_URL='https://mila-ecommerce-iwnm.onrender.com/api/brands/';
 const insertBrand=async(brandData,adminToken)=>{
     console.log('axios',brandData)
     const config={

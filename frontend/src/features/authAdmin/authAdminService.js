@@ -1,5 +1,5 @@
 import axios from 'axios';
-const API_URL='/api/admin/';
+const API_URL='https://mila-ecommerce-iwnm.onrender.com/api/admin/';
 
 // Register User
 const register=async(adminData)=>{
