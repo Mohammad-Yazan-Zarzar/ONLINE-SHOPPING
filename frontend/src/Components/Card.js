@@ -9,6 +9,8 @@ import { UserContext } from '../App'
 import { useContext } from 'react'
 import { useEffect } from 'react'
 import {toast } from 'react-toastify';
+import LazyLoad from 'react-lazyload';
+
 
 
 // import { useState } from 'react'
@@ -127,7 +129,11 @@ const Card = (props) => {
           <>
             
             <div>
+              <LazyLoad>
+
               <CardImg src={imgUrl+props.item.brandName+'/'+props.item.brandLogo} className="card-img-top"></CardImg>
+              </LazyLoad>
+
             </div>
             <div className="card-body">
                 <h5 className="card-title">{props.item.brandName}</h5>
