@@ -8,6 +8,7 @@ import {useNavigate} from 'react-router-dom';
 import {toast } from 'react-toastify';
   // import 'react-toastify/dist/ReactToastify.css';
 import {register, reset} from '../features/auth/authSlice'
+import Loading from '../Components/Loading';
 // import { reset } from 'nodemon';
 const RegisterBody=styled.div`
     height: 85vh;
@@ -167,7 +168,7 @@ function Register() {
   },[user,isError,isSuccess,message,dispatch])
 
   if(isLoading){
-    return <h1>loading</h1>
+    return <Loading></Loading>
   }
   return (
     <RegisterBody>

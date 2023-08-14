@@ -6,6 +6,7 @@ import {useSelector,useDispatch}from 'react-redux';
 import { useEffect } from 'react';
 import {useNavigate} from 'react-router-dom';
 import {toast } from 'react-toastify';
+import Loading from '../Components/Loading';
   // import 'react-toastify/dist/ReactToastify.css';
 import {login, reset} from '../features/auth/authSlice'
 const RegisterBody=styled.div`
@@ -113,7 +114,7 @@ function Login() {
   },[user,isError,isSuccess,message,dispatch])
 
   if(isLoading){
-    return <h1>loading</h1>
+    return <Loading></Loading>
   }
   return (
     <RegisterBody>

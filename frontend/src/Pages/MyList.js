@@ -7,6 +7,7 @@ import{reset,insertNewProduct,getProducts,deleteProduct} from '../features/Produ
 import { getOrderUser,insertNewOrder } from '../features/Orders/orderSlice'
 import { useState } from 'react'
 import Card from '../Components/Card';
+import Loading from '../Components/Loading';
 import styled from 'styled-components';
 const MyListBody=styled.div`
   min-height: 90vh;
@@ -73,7 +74,7 @@ const MyList = () => {
       <h2>MyList </h2>
 
     {isLoadingOrder?(
-      <h1>Loading</h1>
+      <Loading></Loading>
     ):(
       <MyListCards className='container' >
       {orders.map((item,index)=>{

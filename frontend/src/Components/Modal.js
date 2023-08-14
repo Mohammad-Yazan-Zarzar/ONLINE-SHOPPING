@@ -29,7 +29,7 @@ const CardImg=styled.img`
 `
 const Modal = () => {
   const primary = useContext(UserContext);
-  const imgUrl='http://localhost:5000/public/'
+  const imgUrl='https://mila-ecommerce-iwnm.onrender.com/public/'
 
 
   return (
