@@ -200,7 +200,7 @@ const Navbar = () => {
   return ( <>
     <NavStyle className="navbar navbar-expand-lg bg-body-tertiary">
   <DivStyle className="container-fluid">
-    <LinkS to="/" className="navbar-brand" ><Logo src={img} alt='n' ></Logo></LinkS>
+    <LinkS to="/Home" className="navbar-brand" ><Logo src={img} alt='n' ></Logo></LinkS>
     {/* <img src={img} alt='' ></img> */}
     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span className="navbar-toggler-icon"></span>

@@ -78,7 +78,7 @@ const ImgHeadCard=styled.img`
 const Card = (props) => {
   const primary = useContext(UserContext);
 
-  const imgUrl='http://localhost:5000/public/'
+  const imgUrl='https://mila-ecommerce-iwnm.onrender.com/public/'
   const{newOrder,deletedOrder,orders,isLoadingOrder,isErrorOrder,isSuccessOrder,messageOrder}=useSelector((state)=>state.order)
 
   const{newBrand,deletedBrand,brands,isLoading,isError,isSuccess,message}=useSelector((state)=>state.brand)
