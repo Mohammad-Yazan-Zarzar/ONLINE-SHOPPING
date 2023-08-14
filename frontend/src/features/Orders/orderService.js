@@ -1,7 +1,7 @@
 import axios from 'axios';
 const API_URL='/api/orders/';
 const insertOrder=async(orderData,userToken)=>{
-    console.log('axios myList',orderData)
+    console.log('axios myList inserte',orderData)
     const config={
         headers:{
             Authorization:`Bearer ${userToken}`

@@ -7,6 +7,8 @@ import {toast } from 'react-toastify';
 // import { set } from 'mongoose';
 import { FcDeleteDatabase } from "react-icons/fc";
 import { FcRefresh } from "react-icons/fc";
+import Loading from '../Components/Loading';
+import SearchBar from './SearchBar';
 
 // import img from '../../../public/Test Company 11/'
 // import { italic } from 'colors';
@@ -56,6 +58,11 @@ const Separator=styled.span`
   transition: all .30s linear;
 
 `
+const Nav=styled.div`
+  width: 100%;
+  display: flexbox;
+  justify-content: center;
+`
 const InsertProduct = () => {
   const imgUrl='http://localhost:5000/public/'
   const productData=new FormData();
@@ -91,6 +98,7 @@ const InsertProduct = () => {
 
   const dispatch=useDispatch()
 
+  const[cardNumber,setCardNuber]=useState(10)
  
   const onChange=(e)=>{
     // console.log('productClass',productClass)
@@ -235,25 +243,28 @@ useEffect(()=>{
   return (
     <BrandForm >
         <h3>Inserte New Product To database</h3>
-        <Form enctype="multipart/form-data" onSubmit={(e)=>e.preventDefault()}>
+        <Form enctype="multipart/form-data" id='FormInserte' onSubmit={(e)=>e.preventDefault()}>
             <label>Name Of Product</label>
             <InputForm type='text' name='productName' value={productName} onChange={onChange} ></InputForm>
             <Separator></Separator>
             {/* <label>Product Category</label>
             <InputForm type='text' name='productClass' value={productClass} onChange={onChange} ></InputForm> */}
-            <select class="form-select" aria-label="Default select example" value={productCategory} onChange={(t)=>{
+            <select className="form-select" aria-label="Default select example" value={productCategory} onChange={(t)=>{
               setProductCategory(t.target.value)
             
               
             }}>
-              <option selected> select Product Category</option>
+              <option  > select Product Category</option>
               <option value="Cofee">Cofee</option>
               <option value="Tea">Tea</option>
+              <option value="Mate">Mate</option>
+              <option value="Foodstuffs">Foodstuffs</option>
               <option value="Chips">Chips</option>
+              <option value="Biscuit">Biscuit</option>
               <option value="Sweets">Sweets</option>
               <option value="Nuts">Nuts</option>
+              <option value="Spices">Spices</option>
               <option value="Dates">Dates</option>
-
               <option value="Supplies for restaurants and shops">Supplies for restaurants and shops</option>
 
 
@@ -277,11 +288,11 @@ useEffect(()=>{
 
               setBrandNameValue(brandValue.split('/')[0])
               }}>
-                <option selected>Select the Brand </option>
+                <option >Select the Brand </option>
               
                 {brands.map((item,index)=>{
                   return(
-                    <option value={item.brandName+'/'+item._id}>{item.brandName}</option>
+                    <option key={index} value={item.brandName+'/'+item._id}>{item.brandName}</option>
 
 
                   )
@@ -289,8 +300,8 @@ useEffect(()=>{
                 
             </select>
             <Separator></Separator>
-            <label for="exampleFormControlTextarea1" class="form-label">Product Description</label>
-            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" value={productDescription} onChange={(z)=>{
+            <label htmlFor="exampleFormControlTextarea1" className="form-label">Product Description</label>
+            <textarea className="form-control" id="exampleFormControlTextarea1" rows="3" value={productDescription} onChange={(z)=>{
               setProductDescription(z.target.value)
             }}></textarea>
             <Separator></Separator>
@@ -309,7 +320,8 @@ useEffect(()=>{
 
 
         </Form>
-        {isLoadingProduct?(<h1>Loading</h1>):(
+        <SearchBar></SearchBar>
+        {isLoadingProduct?(<Loading></Loading>):(<>
           <table className="table">
           <thead>
             <tr>
@@ -327,9 +339,9 @@ useEffect(()=>{
             </tr>
           </thead>
           <tbody>
-            {products.map((item,index)=>{
+            {products.slice(0,cardNumber).map((item,index)=>{
               return(
-                <tr  key={item._id}>
+                <tr  key={index}>
                   <td>{index}</td>
 
                   <td>{item.productName}</td>
@@ -342,7 +354,7 @@ useEffect(()=>{
                   <td>{item.createdAt}</td>
                   
 
-                  <td> <button className='btn btn-outline-info' onClick={()=>updateProductBtn(item)} ><FcRefresh></FcRefresh></button> </td>
+                  <td> <a href='#FormInserte'><button className='btn btn-outline-info' onClick={()=>updateProductBtn(item)} ><FcRefresh></FcRefresh></button></a> </td>
                   
                   <td> <button className='btn btn-outline-danger'onClick={()=>deleteProductBtn(item._id)}>
                     <FcDeleteDatabase></FcDeleteDatabase></button> </td>
@@ -352,6 +364,17 @@ useEffect(()=>{
             })}
           </tbody>
           </table>
+            <Nav>
+            <button className="btn btn-primary" disabled={(cardNumber>=products.length) ?'disapled':''} onClick={()=>{
+              setCardNuber(cardNumber+10)
+              // console.log('Next',products.length)
+              // console.log('Next2',cardNumber)
+  
+            }}>More...</button>
+  
+          </Nav>
+          <br></br>
+          </>
 
         )
           

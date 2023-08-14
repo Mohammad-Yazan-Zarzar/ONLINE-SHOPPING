@@ -8,7 +8,7 @@ const initialState={
     isErrorOrder:false,
     isSuccessOrder:false,
     isLoadingOrder:false,
-    message:''
+    messageOrder:''
 }
 export const insertNewOrder=createAsyncThunk(
     'order/insertNewOrder',
@@ -82,7 +82,7 @@ export const orderSlice=createSlice({
                 .addCase(insertNewOrder.rejected,(state,action)=>{
                     state.isLoadingOrder=false
                     state.isErrorOrder=true
-                    state.message=action.payload
+                    state.messageOrder=action.payload
                     state.newOrder=[]
                 }).addCase(getOrderUser.pending,(state)=>{
                     state.isLoadingOrder=true})
@@ -94,7 +94,7 @@ export const orderSlice=createSlice({
                 .addCase(getOrderUser.rejected,(state,action)=>{
                         state.isLoadingOrder=false
                         state.isErrorOrder=true
-                        state.message=action.payload
+                        state.messageOrder=action.payload
                         state.orders=[]
                     })
                 .addCase(deleteOrder.pending,(state)=>{
@@ -107,7 +107,7 @@ export const orderSlice=createSlice({
                 .addCase(deleteOrder.rejected,(state,action)=>{
                         state.isLoadingOrder=false
                         state.isErrorOrder=true
-                        state.message=action.payload
+                        state.messageOrder=action.payload
                         state.deletedOrder=[]
                     })
             },

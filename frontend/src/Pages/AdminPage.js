@@ -25,6 +25,9 @@ const Group=styled.div`
     display: flex;
     gap: 5px;
 `
+const Form=styled.form`
+  min-height: 85vh;
+`
 const AdminPage = () => {
     const [formData,setFormData]=useState({
         'adminEmail':'',
@@ -76,7 +79,7 @@ const AdminPage = () => {
     <>
 
     {isLogin?<Page className='container'>
-    <h1>AdminPage</h1>
+    <h1>AdminPage {admin.adminName}</h1>
     
    
     <Group>
@@ -99,21 +102,21 @@ const AdminPage = () => {
     {showInsertBrand? <InsertBrand/>:null}
     {showInsertProduct? <InsertProduct/>:null}
 
-</Page>: <form className='container ' onSubmit={onSubmit} >
+</Page>: <Form className='container ' onSubmit={onSubmit} >
         {/* <h1>AdminPage{localStorage.admin.adminName}</h1> */}
 
-        <div class="mb-3">
-            <label for="exampleInputEmail1" className="form-label">Email address</label>
+        <div className="mb-3">
+            <label htmlFor="exampleInputEmail1" className="form-label">Email address</label>
             <input type="email" className="form-control" name='adminEmail' onChange={onChange} ></input>
 
         </div>
-        <div class="mb-3">
-            <label for="exampleInputPassword1" className="form-label">Password</label>
+        <div className="mb-3">
+            <label htmlFor="exampleInputPassword1" className="form-label">Password</label>
             <input type="password" className="form-control" id="exampleInputPassword1" name='adminPassword' onChange={onChange}></input>
         </div>
 
-        <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
+        <button type="submit" className="btn btn-primary">Submit</button>
+        </Form>
 }
    
        

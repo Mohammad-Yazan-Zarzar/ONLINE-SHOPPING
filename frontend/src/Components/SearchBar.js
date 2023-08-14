@@ -63,19 +63,28 @@ const SearchBar = () => {
           <Input placeholder='search' value={productName} onChange={(e)=>setProductName(e.target.value)} ></Input>
           <FcSearch></FcSearch>
         </InputBar>
-        <SelectItem className="form-select" aria-label="Default select example" value={classType} onChange={(e)=>{
-          setClassType(e.target.value)
-          dispatch(getProductByClass(e.target.value))
-          console.log('class')
+        <SelectItem className="form-select" aria-label="Default select example" value={classType}  onChange={(e)=>{
+          if(e.target.value==='All'){
+            dispatch(getProducts())
+          }else{
+            setClassType(e.target.value)
+            dispatch(getProductByClass(e.target.value))
+          }
+          
+          // console.log('class')
         }} >
-              <option selected> select Category</option>
+              <option > select Category</option>
 
-              <option selected> All</option>
+              <option value ='All'> All</option>
               <option value="Cofee">Cofee</option>
               <option value="Tea">Tea</option>
+              <option value="Mate">Mate</option>
+              <option value="Foodstuffs">Foodstuffs</option>
               <option value="Chips">Chips</option>
+              <option value="Biscuit">Biscuit</option>
               <option value="Sweets">Sweets</option>
               <option value="Nuts">Nuts</option>
+              <option value="Spices">Spices</option>
               <option value="Dates">Dates</option>
               <option value="Supplies for restaurants and shops">Supplies for restaurants and shops</option>
 

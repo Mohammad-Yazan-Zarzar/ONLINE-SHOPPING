@@ -41,11 +41,11 @@ const Footer = () => {
           <Links>
             <Link href='https://www.facebook.com/yzane.zarzar'><BsFacebook></BsFacebook></Link>
             <Link href="mailto:yazanzarzar98@gmail.com?subject='subject text'"><GrMail></GrMail></Link>
-            <Link href="tel:+963981386862"><BsTelephoneForward></BsTelephoneForward></Link>
+            <Link href="tel:+491787603259"><BsTelephoneForward></BsTelephoneForward></Link>
           </Links>
         </div>
         <div className='col-12 col-md-6'>
-          <h5>related comments</h5>
+          <h5>We hope you have a great experience</h5>
         </div>
 
       </div>

@@ -6,7 +6,7 @@ const brandSchema=mongoose.Schema({
     },
     brandLogo:{
         type:String,
-        required:[true,'please add a logo'],
+        required:[false],
         // unique:true
     },
     brandClass:{
@@ -16,7 +16,7 @@ const brandSchema=mongoose.Schema({
     },
     brandContacts:{
         type:Number,
-        required:[true,'please add a Number'],
+        required:[false],
         // unique:true
     }
 },{timestamps:true})

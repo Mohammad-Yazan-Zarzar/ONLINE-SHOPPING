@@ -34,7 +34,7 @@ const MyList = () => {
   const{newProduct,deletedProduct,products,isLoadingProduct,isErrorProduct,isSuccessProduct,messageP}=useSelector((state)=>state.product)
 
   const dispatch=useDispatch()
-  const{newOrder,deletedOrder,orders,isLoadingOrder,isErrorOrder,isSuccessOrder,message}=useSelector((state)=>state.order)
+  const{newOrder,deletedOrder,orders,isLoadingOrder,isErrorOrder,isSuccessOrder,messageOrder}=useSelector((state)=>state.order)
 
   useEffect(()=>{
     // console.log('userId',localStorage.getItem("user")._id)

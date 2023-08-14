@@ -48,12 +48,12 @@ const registerAdmin=asyncHandler(async(req,res)=>{
     }
 })
 const loginAdmin=asyncHandler(async(req,res)=>{
-    const{admineEmail,adminPassword}=req.body
+    const{adminEmail,adminPassword}=req.body
     // check for user
     
-    
-    const admin=await Admin.findOne({admineEmail})
+    const admin=await Admin.findOne({adminEmail})
     // res.status(200).json({email:user.email,name:user.name})
+    console.log(adminEmail)
 
     if(admin &&(await bcrybt.compare(adminPassword,admin.adminPassword))){
 
@@ -64,6 +64,7 @@ const loginAdmin=asyncHandler(async(req,res)=>{
             adminToken:generateToken(admin._id)
         })
     }else{
+        console.log(admin)
         res.status(400)
         throw new Error('Invalid credentials')
 

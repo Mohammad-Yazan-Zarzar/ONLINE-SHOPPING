@@ -44,24 +44,14 @@ const setBrand=asyncHandler(async(req,res)=>{
 })
 
 const updateBrand=asyncHandler(async(req,res)=>{
-    const brand=await Brands.findById(req.params.id)
+    console.log('hhhhhhh',req.body.brandId)
+    const brand=await Brands.findById(req.body.brandId)
     if(!brand){
         res.status(400)
         throw new Error('brand not found')
     }
-    // const user=await User.findById(req.user.id)
-    // check user
-    // if(!user){
-    //     res.status(400)
-    //     throw new Error('User not found')
-
-    // }
-    // if(product.user.toString()!==user.id){
-    //     res.status(400)
-    //     throw new Error('User not authorize')
-
-    // }
-    const updatedBrand=await Brands.findByIdAndUpdate(req.params.id,req.body,{new:true})
+    const updatedBrand=await Brands.findByIdAndUpdate(req.body.brandId,req.body,{new:true})
+    console.log('updateBrand',updateBrand)
     res.status(200).json(updatedBrand)
     
     // res.status(200).json({message:`Update products ${req.params.id}`})

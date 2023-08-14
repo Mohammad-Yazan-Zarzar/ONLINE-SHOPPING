@@ -69,15 +69,21 @@ const Separator=styled.span`
 
 `
 function Login() {
+  const[ErrorEmail,setErrorEmail]=useState('')
+
   const [formData,setFormData]=useState({
     'email':'',
     'password':''
 
   })
+  const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+
   const{email,password}=formData
   const navigate=useNavigate()
   const dispatch=useDispatch()
   const{user,isLoading,isError,isSuccess,message}=useSelector((state)=>state.auth)
+  const[Error,setError]=useState('')
+  
   const onChange=(e)=>{
     setFormData((prevState)=>({
       ...prevState,
@@ -87,6 +93,9 @@ function Login() {
   }
   const onSubmit=(e)=>{
     e.preventDefault()
+     if(!emailRegex.test(email)){
+      setErrorEmail('Please enter a valid email address');
+    }
     const userData={email,password}
     dispatch(login(userData))
     
@@ -95,6 +104,7 @@ function Login() {
     // console.log(user,isError,isSuccess,message)
     if(isError){
       toast.error(message)
+      setError(message +" passwor or Email is Error  ")
     }
     if(isSuccess||user){
       navigate('/Home')
@@ -108,6 +118,9 @@ function Login() {
   return (
     <RegisterBody>
       <h2><BiLogIn></BiLogIn>Login</h2>
+      {Error!==''?(<div className="alert alert-danger" role="alert">
+          {Error}
+      </div>):null}
       <RegisterForm onSubmit={onSubmit}>
         {/* <Field>
           <label>User Name</label>
@@ -122,6 +135,7 @@ function Login() {
           ></InputForm>
           <Separator className="separator"> </Separator>
         </Field>
+        {ErrorEmail}
         <Field>
           <label>Password</label>
           <InputForm type='password'placeholder='please input complex password'
@@ -130,7 +144,7 @@ function Login() {
           ></InputForm>
           <Separator className="separator"> </Separator>
         </Field>
-        <button type='submit' className='btn btn-primary'>Login</button>
+        <button type='submit' className='btn btn-primary'disabled={(password==='' ||  email==='') ?'disapled':''}>Login</button>
         
 
       </RegisterForm>

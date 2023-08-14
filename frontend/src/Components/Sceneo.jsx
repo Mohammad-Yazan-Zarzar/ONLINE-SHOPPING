@@ -8,13 +8,24 @@ Title: Online Store - Anil
 */
 
 import React, { useRef } from 'react'
-import { useGLTF } from '@react-three/drei'
-
+import { OrbitControls, useGLTF } from '@react-three/drei'
+import { useEffect } from 'react';
 export  function Shop(props) {
+  const meshRef=useRef();
+  const controlsRef=useRef();
   const { nodes, materials } = useGLTF('/sceneo-transformed.glb')
+  useEffect(()=>{
+    controlsRef.current.target=meshRef.current.position;
+    controlsRef.current.distance=5;
+  },[]);
   return (
+    <>
+    <mesh position={[0,0,0]} ref={meshRef} >
+
     <group {...props} dispose={null}>
-      <group rotation={[-Math.PI / 2, 0, 0]} scale={0.8}>
+      <group rotation={[-Math.PI / 2, 0,0]} scale={0.2}>
+      {/* <group > */}
+        
         <mesh geometry={nodes.Object_2.geometry} material={materials.Body} />
         <mesh geometry={nodes.Object_3.geometry} material={materials.Chrome} />
         <mesh geometry={nodes.Object_4.geometry} material={materials['Material.001']} />
@@ -29,6 +40,9 @@ export  function Shop(props) {
         <mesh geometry={nodes.Object_13.geometry} material={materials.mat_window} />
       </group>
     </group>
+    </mesh>
+    <OrbitControls enableZoom={false} ref={controlsRef}/>
+</>
   )
 }
 

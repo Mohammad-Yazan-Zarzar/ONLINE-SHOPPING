@@ -2,11 +2,13 @@ import React from 'react'
 import styled from 'styled-components'
 import { useState,useEffect } from 'react'
 import {useSelector,useDispatch}from 'react-redux';
-import{reset,insertBrand,getBrands,deleteBrand} from '../features/Brands/brandsSlice'
+import{reset,insertBrand,getBrands,deleteBrand,updateBrand} from '../features/Brands/brandsSlice'
 import {toast } from 'react-toastify';
 // import { set } from 'mongoose';
 import { FcDeleteDatabase } from "react-icons/fc";
 import { FcRefresh } from "react-icons/fc";
+import Loading from '../Components/Loading';
+
 
 // import img from '../../../public/Test Company 11/'
 // import { italic } from 'colors';
@@ -47,7 +49,7 @@ const ImgStyle=styled.img`
 `
 const Separator=styled.span`
   width:100%;
-  max-width: 500px;
+  /* max-width: 500px; */
   /* width: 0px; */
   height: 3px;
   opacity: 0;
@@ -61,12 +63,14 @@ const InsertBrand = () => {
   const brandData=new FormData();
     const [imgField,setImg]=useState('')
     const [formData,setFormData]=useState({
+        'brandId':'',
         'brandName':'',
         'BrandLogo':'',
         'contactNumber':'',
         'brandClass':''
     
     })
+    const [btnType,setBtnType]=useState(true)
   const[brandCategory,setBrandCategory]=useState('')
   const{brandName,BrandLogo,contactNumber,brandClass}=formData
   const dispatch=useDispatch()
@@ -97,6 +101,25 @@ const InsertBrand = () => {
     dispatch(deleteBrand(_id))
     // dispatch(reset())
   }
+  const updateProductBtn=(item)=>{
+    setFormData({
+      'brandName':'',
+      'BrandLogo':'',
+      'contactNumber':'',
+      'brandClass':''
+    })
+    setBrandCategory(item.brandClass)
+    // setBrandValue('')
+    setFormData({
+      'brandId':item._id,
+      'brandName':item.brandName||'',
+      'BrandLogo':item.brandLogo||'',
+      'contactNumber':item.brandContacts||'',
+      'brandClass':item.brandClass||''
+    })
+    
+    setBtnType(false)
+  }
   const onSubmit=(e)=>{
     e.preventDefault()
     brandData.append('brandName',brandName)
@@ -110,6 +133,22 @@ const InsertBrand = () => {
 
     dispatch(insertBrand(brandData))
     setBrandCategory('')
+  }
+  const updateSubmit=()=>{
+    // e.preventDefault()
+    // brandData.append('brandName',brandName)
+    // brandData.append('BrandLogo',BrandLogo)
+    // brandData.append('contactNumber',contactNumber)
+    // brandData.append('brandClass',brandCategory)
+    dispatch(updateBrand({
+      'brandId':formData.brandId,
+      'brandName':formData.brandName,
+      'brandContacts':formData.contactNumber,
+      'brandClass':brandCategory
+
+    }))
+
+
   }
   useEffect(()=>{
     dispatch(getBrands())
@@ -130,16 +169,19 @@ const InsertBrand = () => {
         'brandClass':''
     
     })
+    setBrandCategory('')
     setImg('')
       
     }
+    setBtnType(true)
     dispatch(reset())
   },[newBrand,deletedBrand,brands,isError,isSuccess,message,dispatch])
+
   
   return (
-    <BrandForm onSubmit={onSubmit}>
+    <BrandForm >
         <h3>Inserte New Brand To database</h3>
-        <Form enctype="multipart/form-data">
+        <Form enctype="multipart/form-data"onSubmit={(e)=>e.preventDefault()}>
             <label>Name Of Brand</label>
             <InputForm type='text' name='brandName' value={brandName} onChange={onChange} ></InputForm>
             <Separator></Separator>
@@ -155,31 +197,44 @@ const InsertBrand = () => {
             {/* <label>Classification Of Brand</label>
             <InputForm type='text' name='brandClass' value={brandClass} onChange={onChange} ></InputForm>
             <Separator></Separator> */}
-            <select class="form-select" aria-label="Default select example" value={brandCategory} onChange={(t)=>{
+            <select className="form-select" aria-label="Default select example" value={brandCategory} onChange={(t)=>{
               setBrandCategory(t.target.value)
             
               
             }}>
-              <option selected> select Brand Category</option>
+              <option > select Brand Category</option>
               <option value="Cofee">Cofee</option>
               <option value="Tea">Tea</option>
+              <option value="Mate">Mate</option>
+              <option value="Foodstuffs">Foodstuffs</option>
               <option value="Chips">Chips</option>
+              <option value="Biscuit">Biscuit</option>
               <option value="Sweets">Sweets</option>
               <option value="Nuts">Nuts</option>
+              <option value="Spices">Spices</option>
               <option value="Dates">Dates</option>
-
               <option value="Supplies for restaurants and shops">Supplies for restaurants and shops</option>
+
 
 
           </select>
           <Separator></Separator>
           {brandCategory}
 
-            <button type='submit'className='btn btn-primary' > Inserte </button>
+          {btnType ?
+              <button className='btn btn-primary'onClick={()=>onSubmit()} > Add Brand </button>
+
+              : <button className='btn btn-primary' onClick={()=>{
+                console.log('update')
+                updateSubmit()
+                
+              }} > Update Brand </button>
+
+            }
 
 
         </Form>
-        {isLoading?(<h1>Loading</h1>):(
+        {isLoading?(<Loading></Loading>):(
           <table className="table">
           <thead>
             <tr>
@@ -198,7 +253,7 @@ const InsertBrand = () => {
           <tbody>
             {brands.map((item,index)=>{
               return(
-                <tr  key={item._id}>
+                <tr  key={index}>
                   <td>{index}</td>
 
                   <td>{item.brandName}</td>
@@ -209,7 +264,7 @@ const InsertBrand = () => {
                   <td>{item.createdAt}</td>
                   
 
-                  <td> <button className='btn btn-outline-info'><FcRefresh></FcRefresh></button> </td>
+                  <td> <a href='#FormInserte'><button className='btn btn-outline-info'onClick={()=>updateProductBtn(item)}><FcRefresh></FcRefresh></button></a> </td>
                   
                   <td> <button className='btn btn-outline-danger'onClick={()=>deleteBrandBtn(item._id)}>
                     <FcDeleteDatabase></FcDeleteDatabase></button> </td>

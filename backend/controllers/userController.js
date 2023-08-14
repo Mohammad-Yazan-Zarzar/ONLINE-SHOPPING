@@ -13,14 +13,14 @@ const generateToken=(id)=>{
 const registerUser=asyncHandler(async(req,res)=>{
     const{name,email,password}=req.body
     if(!name || !email || !password){
-        res.status(400)
+        res.status(400).json({error:'please add all fields'})
         throw new Error('please add all fields')
 
     }
     // check if user Exists
     const userExists=await User.findOne({email})
     if(userExists){
-        res.status(400)
+        res.status(404).send('User Alredy Exist')
         throw new Error('User Already Exists')
 
     }

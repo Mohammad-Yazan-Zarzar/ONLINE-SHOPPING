@@ -2,7 +2,16 @@ import React from 'react'
 import styled from 'styled-components'
 import Card from './Card'
 import { useSelector } from 'react-redux'
+import Loading from './Loading'
+const H3=styled.p`
+  color:#006d77;
+  text-align: center;
+  margin: auto auto;
+  word-break: keep-all;
+  font-weight: bold;
 
+
+`
 const ListBody=styled.div`
     width:100%;
     /* background-color:#006d77 ; */
@@ -33,9 +42,24 @@ const ListBody=styled.div`
 `
 
 const List = (props) => {
-  const{newBrand,deletedBrand,brands,isLoading,isError,isSuccess,message}=useSelector((state)=>state.brand)
-  console.log('props.items',props.items) 
+  const{newBrand,deletedBrand,brands,isLoading,isError,isSuccess,messageP}=useSelector((state)=>state.brand)
+  const{newProduct,deletedProduct,products,isLoadingProduct,isErrorProduct,isSuccessProduct,message}=useSelector((state)=>state.product)
   
+  // console.log('props.items',props.items) 
+  if(isLoadingProduct){
+    return(
+      <Loading></Loading>
+    )
+  }
+  if(isErrorProduct){
+    return(
+      <>
+      <h1>{message}</h1>
+      <h1>{messageP}</h1>
+    </>
+      
+    )
+  }
   if(props.items.length>0){
     return (
       <ListBody className='container'>
@@ -43,6 +67,14 @@ const List = (props) => {
           {props.items.map((item,index)=>{
             return(<Card key={index} item={item} brand={props.isBrand} isProduct={true}   ></Card>)
           })}
+  
+      </ListBody>
+    )
+  }
+  if(props.items.length===0){
+    return (
+      <ListBody className='container'>
+         <H3> There are no products available now </H3>
   
       </ListBody>
     )

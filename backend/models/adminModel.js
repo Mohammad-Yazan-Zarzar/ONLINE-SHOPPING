@@ -6,7 +6,7 @@ const adminSchema=mongoose.Schema({
     },
     adminEmail:{
         type:String,
-        required:[true,'please add an Admin emain'],
+        required:[true,'please add an Admin email'],
         unique:true
     },
     adminPassword:{

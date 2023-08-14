@@ -5,16 +5,22 @@ import { useSelector,useDispatch } from 'react-redux'
 import {MdPlaylistAdd} from "react-icons/md"
 import{FcViewDetails} from "react-icons/fc"
 import{CgDetailsMore} from "react-icons/cg"
+import { UserContext } from '../App'
+import { useContext } from 'react'
+import { useEffect } from 'react'
+import {toast } from 'react-toastify';
+
 
 // import { useState } from 'react'
-import { getOrderUser,insertNewOrder,deleteOrder } from '../features/Orders/orderSlice'
+import { getOrderUser,insertNewOrder,deleteOrder,reset } from '../features/Orders/orderSlice'
 
 const CardStyle=styled.div`
     
     width: 18rem;
    
-
-    max-height: 500px;
+    /* height: fit-content; */
+    min-height: 450px;
+    max-height: 450px;
    
     overflow: hidden;
     /* overflow-y: ; */
@@ -70,7 +76,11 @@ const ImgHeadCard=styled.img`
   border-radius: 2px;
 `
 const Card = (props) => {
+  const primary = useContext(UserContext);
+
   const imgUrl='http://localhost:5000/public/'
+  const{newOrder,deletedOrder,orders,isLoadingOrder,isErrorOrder,isSuccessOrder,messageOrder}=useSelector((state)=>state.order)
+
   const{newBrand,deletedBrand,brands,isLoading,isError,isSuccess,message}=useSelector((state)=>state.brand)
   //  let brandLogo=''
   const {user}=useSelector((state)=>state.auth)
@@ -87,6 +97,30 @@ const Card = (props) => {
     dispatch(deleteOrder(orderData))
     
   }
+  const insertNewOrder1=(productId)=>{
+    console.log('order new id:',productId)
+    let orderData={'userId':user._id,'productId':productId}
+    dispatch(insertNewOrder(orderData))
+
+
+  }
+  useEffect(()=>{
+    if(isErrorOrder){
+      toast.error(message)
+      // console.log('test toast',messageOrder)
+
+      primary.setSee(true)
+      primary.setNote(messageOrder)
+      primary.setMode('failed')
+    }
+    if(isSuccessOrder){
+      primary.setSee(true)
+      primary.setNote('done successfully')
+      primary.setMode('success') 
+    }
+    
+    dispatch(reset())
+  },[newOrder,orders,isErrorOrder,isSuccessOrder,messageOrder,dispatch])
   return (
     <CardStyle className="card text-dark bg-light mb-3" >
         {props.brand?(
@@ -126,16 +160,40 @@ const Card = (props) => {
 
           <div className="card-body">
               <h5 className="card-title">{props.item.productName}</h5>
-              <p className="card-text">{props.item.price} $</p>
+              {props.item.price?(<p className="card-text">{props.item.price} $</p>):(null)}
               <p className="card-text">{props.item.brandContacts}</p>
               {/* <p className="card-text">{props.item.productDescription}</p> */}
               {props.isProduct?(
                 <GroupBtn>
                 {/* <button className='btn'><FcViewDetails></FcViewDetails> more</button> */}
-                <button className='btn btn-outline-primary'><CgDetailsMore></CgDetailsMore> more</button>
+               <a href='#modal'><button className='btn btn-outline-primary'onClick={()=>{
+                  primary.setModal(true)
+                  primary.setItem(props.item)
+                }}><CgDetailsMore></CgDetailsMore> more</button></a> 
 
 
-                <button className='btn btn-outline-success'>save <MdPlaylistAdd></MdPlaylistAdd></button>
+                <button className='btn btn-outline-success' onClick={()=>{
+                  if(user===undefined||user===null){
+                    primary.setMode('failed')
+                    primary.setNote('please signIn first and try again')
+                    primary.setSee(true)
+                    setTimeout(()=>{primary.setSee(false)},5000)
+                    
+
+
+                  }else{
+
+                    insertNewOrder1(props.item._id)
+                    // primary.setMode('success')
+
+                    // primary.setNote('It is save in your list')
+                    // primary.setSee(true)
+                    setTimeout(()=>{primary.setSee(false)},3000)
+
+
+                  }
+
+                }} >save <MdPlaylistAdd></MdPlaylistAdd></button>
               </GroupBtn>
               ):(null)}
               

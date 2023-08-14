@@ -48,6 +48,20 @@ export const deleteBrand=createAsyncThunk(
         }
     }
 )
+export const updateBrand=createAsyncThunk(
+    'brand/updateBrand',
+    async(brand,thunkAPI)=>{
+        try{
+            const adminToken=thunkAPI.getState().authAdmin.admin.adminToken
+            console.log('slice',brand)
+            return await brandService.updateBrand(brand,adminToken)
+        }catch(error){
+            const message=(error.response&&error.response.data && error.response.data.message)||
+                error.message||error.toString()
+            return thunkAPI.rejectWithValue(message)
+        }
+    }
+)
 export const brandSlice=createSlice({
     name:'brand',
     initialState,
@@ -102,6 +116,19 @@ export const brandSlice=createSlice({
                         state.isError=true
                         state.message=action.payload
                         state.deletedBrand=[]
+                    })
+                .addCase(updateBrand.pending,(state)=>{
+                    state.isLoading=true})
+                .addCase(updateBrand.fulfilled,(state,action)=>{
+                        state.isLoading=false
+                        state.isSuccess=true
+                        // state.deletedBrand=action.payload
+                    })
+                .addCase(updateBrand.rejected,(state,action)=>{
+                        state.isLoading=false
+                        state.isError=true
+                        state.message=action.payload
+                        state.brands=[]
                     })
 
 

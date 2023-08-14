@@ -10,7 +10,7 @@ import { useEffect } from 'react'
 import { Link } from "react-router-dom";
 import { getProducts,getProductByClass } from '../features/Products/productSlice'
 import { useState } from 'react'
-
+// import Loading from '../Components/Loading'
 // import { style } from '@mui/system'
 // const HomeImage='../'
 const HomeBody=styled.div`
@@ -81,7 +81,7 @@ const H2=styled.h2`
   /* font-weight:bold; */
   font-size:26px;
   ::after{
-    content:"Welcome To Shop";
+    content:"Welcome To Mila Shop";
     position: absolute;
     top:0px;
     left:0px;
@@ -121,7 +121,7 @@ export const Home = () => {
       <HomeBody className='' >
         <Section1 className='row'>
           <div className='col-12 col-lg-6 order-first align-self-center'> 
-            <H2>Welcome To Shop</H2>
+            <H2>Welcome To Mila Shop</H2>
             <p>Your favorite markets are now on your phone</p> 
           </div>
           <Right className='col-12 col-lg-6 align-self-center  justify-content-center'>
@@ -136,7 +136,7 @@ export const Home = () => {
             {/* <h4>++{products.find(x=>x.productClass==='Cofee').productName}</h4> */}
             <List items={products.filter(x=>x.productClass==='Tea').slice(0,9)} isLoading={isLoadingProduct} isBrand={false}></List>
             <Link to='/Products'onClick={()=> dispatch(getProductByClass('Tea')) }>
-              <button className='btn btn-primary' >All Tea Products</button>
+              <button className='btn btn-primary' disabled={isErrorProduct||isLoadingProduct ?'disapled':''} >All Tea Products</button>
 
             </Link>
         </Section2>
@@ -148,7 +148,40 @@ export const Home = () => {
             <List items={products.filter(x=>x.productClass==='Cofee').slice(0,9)} isLoading={isLoadingProduct} isBrand={false}></List>
           
             <Link to='/Products' onClick={()=> dispatch(getProductByClass('Cofee')) }>
-              <button className='btn btn-primary' >All Cofee Products</button>
+              <button className='btn btn-primary' disabled={isErrorProduct||isLoadingProduct ?'disapled':''} >All Cofee Products</button>
+
+            </Link>
+        </Section2>
+        <br></br>
+        <Section2>
+            <h3> Foodstuffs </h3>
+            {/* <h4>++{products.find(x=>x.productClass==='Cofee').productName}</h4> */}
+            <List items={products.filter(x=>x.productClass==='Foodstuffs').slice(0,9)} isLoading={isLoadingProduct} isBrand={false}></List>
+          
+            <Link to='/Products' onClick={()=> dispatch(getProductByClass('Foodstuffs')) }>
+              <button className='btn btn-primary' disabled={isErrorProduct||isLoadingProduct ?'disapled':''} >All Foodstuffs Products</button>
+
+            </Link>
+        </Section2>
+        <br></br>
+        <Section2>
+            <h3> Spices </h3>
+            {/* <h4>++{products.find(x=>x.productClass==='Cofee').productName}</h4> */}
+            <List items={products.filter(x=>x.productClass==='Spices').slice(0,9)} isLoading={isLoadingProduct} isBrand={false}></List>
+          
+            <Link to='/Products' onClick={()=> dispatch(getProductByClass('Spices')) }>
+              <button className='btn btn-primary' disabled={isErrorProduct||isLoadingProduct ?'disapled':''} >All Spices Products</button>
+
+            </Link>
+        </Section2>
+        <br></br>
+        <Section2>
+            <h3> Mate </h3>
+            {/* <h4>++{products.find(x=>x.productClass==='Cofee').productName}</h4> */}
+            <List items={products.filter(x=>x.productClass==='Mate').slice(0,9)} isLoading={isLoadingProduct} isBrand={false}></List>
+          
+            <Link to='/Products' onClick={()=> dispatch(getProductByClass('Mate')) }>
+              <button className='btn btn-primary' disabled={isErrorProduct||isLoadingProduct ?'disapled':''} >All Mate Products</button>
 
             </Link>
         </Section2>
@@ -158,7 +191,7 @@ export const Home = () => {
             {/* <h4>++{products.find(x=>x.productClass==='Cofee').productName}</h4> */}
             <List items={products.filter(x=>x.productClass==='Nuts').slice(0,9)} isLoading={isLoadingProduct} isBrand={false}></List>
             <Link to='/Products'onClick={()=> dispatch(getProductByClass('Nuts')) }>
-              <button className='btn btn-primary' >All Nuts Products</button>
+              <button className='btn btn-primary' disabled={isErrorProduct||isLoadingProduct ?'disapled':''} >All Nuts Products</button>
 
             </Link>
         </Section2>
@@ -168,7 +201,7 @@ export const Home = () => {
             {/* <h4>++{products.find(x=>x.productClass==='Cofee').productName}</h4> */}
             <List items={products.filter(x=>x.productClass==='Chips').slice(0,9)} isLoading={isLoadingProduct} isBrand={false}></List>
             <Link to='/Products'onClick={()=> dispatch(getProductByClass('Chips')) }>
-              <button className='btn btn-primary' >All Chips Products</button>
+              <button className='btn btn-primary' disabled={isErrorProduct||isLoadingProduct ?'disapled':''} >All Chips Products</button>
 
             </Link>
         </Section2>
@@ -178,7 +211,17 @@ export const Home = () => {
             {/* <h4>++{products.find(x=>x.productClass==='Cofee').productName}</h4> */}
             <List items={products.filter(x=>x.productClass==='Sweets').slice(0,9)} isLoading={isLoadingProduct} isBrand={false}></List>
             <Link to='/Products'onClick={()=> dispatch(getProductByClass('Sweets')) }>
-              <button className='btn btn-primary' >All Sweets Products</button>
+              <button className='btn btn-primary' disabled={isErrorProduct||isLoadingProduct ?'disapled':''} >All Sweets Products</button>
+
+            </Link>
+        </Section2>
+        <br></br>
+        <Section2>
+            <h3> Biscuit </h3>
+            {/* <h4>++{products.find(x=>x.productClass==='Cofee').productName}</h4> */}
+            <List items={products.filter(x=>x.productClass==='Biscuit').slice(0,9)} isLoading={isLoadingProduct} isBrand={false}></List>
+            <Link to='/Products'onClick={()=> dispatch(getProductByClass('Biscuit')) }>
+              <button className='btn btn-primary' disabled={isErrorProduct||isLoadingProduct ?'disapled':''} >All Biscuit Products</button>
 
             </Link>
         </Section2>
@@ -188,7 +231,7 @@ export const Home = () => {
             {/* <h4>++{products.find(x=>x.productClass==='Cofee').productName}</h4> */}
             <List items={products.filter(x=>x.productClass==='Dates').slice(0,9)} isLoading={isLoadingProduct} isBrand={false}></List>
             <Link to='/Products'onClick={()=> dispatch(getProductByClass('Dates')) }>
-              <button className='btn btn-primary' >All Dates Products</button>
+              <button className='btn btn-primary' disabled={isErrorProduct||isLoadingProduct ?'disapled':''} >All Dates Products</button>
 
             </Link>
         </Section2>
@@ -198,21 +241,21 @@ export const Home = () => {
             {/* <h4>++{products.find(x=>x.productClass==='Cofee').productName}</h4> */}
             <List items={products.filter(x=>x.productClass==='Supplies for restaurants and shops').slice(0,9)} isLoading={isLoadingProduct} isBrand={false}></List>
             <Link to='/Products'onClick={()=> dispatch(getProductByClass('Supplies for restaurants and shops')) }>
-              <button className='btn btn-primary' >All Supplies for restaurants and shops Products</button>
+              <button className='btn btn-primary' disabled={isErrorProduct||isLoadingProduct ?'disapled':''} >All Supplies for restaurants and shops Products</button>
 
             </Link>
         </Section2>
         <br></br>
-        <Section2>
+        {/* <Section2>
             <h3>Brands</h3>
             <List items={brands.slice(0,9)} isLoading={isLoading} isBrand={true} ></List>
             <Link to='/Brands'>
-              <button className='btn btn-primary' >All Brands</button>
+              <button className='btn btn-primary' disabled={isErrorProduct||isLoadingProduct ?'disapled':''} >All Brands</button>
 
             </Link>
         </Section2>
 
-        <br></br>
+        <br></br> */}
         <br></br>
         
        

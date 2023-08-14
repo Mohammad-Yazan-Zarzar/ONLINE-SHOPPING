@@ -40,10 +40,28 @@ const deleteBrand=async(_id,adminToken)=>{
     }
     return response.data
 }
+const updateBrand=async(brand,adminToken)=>{
+    console.log('service',brand)
+    const config={
+        headers:{
+            Authorization:`Bearer ${adminToken}`
+        }
+    }
+    console.log('Yazan',brand)
+    console.log(brand.brandId)
+
+    const response=await axios.put(API_URL+brand.brandId,brand,config)
+    if(response.data){
+        console.log('updateBrand:',response.data)
+        // localStorage.setItem('user',JSON.stringify(response.data))
+    }
+    return response.data
+}
 const brandService={
     insertBrand,
     getBrands,
-    deleteBrand
+    deleteBrand,
+    updateBrand
     
 }
 export default brandService

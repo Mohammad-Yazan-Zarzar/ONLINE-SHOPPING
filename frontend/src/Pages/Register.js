@@ -10,7 +10,7 @@ import {toast } from 'react-toastify';
 import {register, reset} from '../features/auth/authSlice'
 // import { reset } from 'nodemon';
 const RegisterBody=styled.div`
-    height: 80vh;
+    height: 85vh;
     text-align: center;
     display: flex;
     align-items: center;
@@ -39,7 +39,7 @@ const InputForm=styled.input`
   border: none;
   text-align: center;
   /* border-bottom:1px solid #fff; */
-  background-color: #fff;
+  background-color: transparent;
   padding: 5px;
 
   :focus + span{
@@ -77,26 +77,80 @@ function Register() {
     'password2':''
 
   })
+    const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+
   const{name,email,password1,password2}=formData
   const navigate=useNavigate()
   const dispatch=useDispatch()
   const{user,isLoading,isError,isSuccess,message}=useSelector((state)=>state.auth)
+  const[ErrorEmail,setErrorEmail]=useState('')
+  const[ErrorLength,setErrorLength]=useState('')
+  const[ErrorMatch,setErrorMatch]=useState('')
+  const[Error,setError]=useState('')
+
+  // const[ErrorEmail,setErrorEmail]=useState('')
+
   // console.log('1',user)
+  const validateEmail = (email) => {
+    const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+    if (!emailRegex.test(email)) {
+      setErrorEmail('Please enter a valid email address');
+    } else {
+      setErrorEmail('');
+    }
+  
+  }
+  const validLength=(password)=>{
+    if(password.length<8){
+      setErrorLength('please enter password > 8 charecter')
+    }else{
+      setErrorLength('')
+    }
+
+  }
+  const validMatch=(password1,password2)=>{
+    if(password1!==password2){
+      setErrorMatch('the passwords do not match')
+    }else{
+      setErrorMatch('')
+    }
+
+  }
   const onChange=(e)=>{
     setFormData((prevState)=>({
       ...prevState,
 
       [e.target.name]:e.target.value,
     }))
+    
+    
+    
+
+    // console.log(email)
+    // console.log(isValidEmail(email))
+    
   }
   const onSubmit=(e)=>{
     e.preventDefault()
     // console.log(formData)
+    
     if(password1!==password2){
-      toast.error('passwords do not match')
-    }else{
+      setErrorMatch('passwords do not match')
+    }
+    else if(!emailRegex.test(email)){
+      setErrorEmail('Please enter a valid email address');
+    }
+    else if(password1.length<8){
+      setErrorLength('please enter password > 8 charecter')
+
+
+    }
+    else{
       const userData={name,email,'password':password1}
       // console.log(userData)
+      setErrorEmail('')
+      setErrorLength('')
+      setErrorMatch('')
       dispatch(register(userData))
     }
   }
@@ -104,6 +158,7 @@ function Register() {
     // console.log(user,isError,isSuccess,message)
     if(isError){
       toast.error(message)
+      setError(message+': maype the user already exist or error in network')
     }
     if(isSuccess||user){
       navigate('/Home')
@@ -117,40 +172,49 @@ function Register() {
   return (
     <RegisterBody>
       <h2><BiUserCircle></BiUserCircle>Register</h2>
+      {Error!==''?(<div className="alert alert-danger" role="alert">
+          {Error}
+      </div>):null}
       <RegisterForm onSubmit={onSubmit}>
         <Field>
-          <label>User Name</label>
+          <h4>User Name</h4>
           <InputForm 
-          type='text' placeholder='please input your Name'
+          type='text' placeholder='Your Name'
           name='name' value={name} onChange={onChange}
           ></InputForm>
           <Separator className="separator"> </Separator>
 
         </Field>
         <Field>
-          <label>Email</label>
-          <InputForm type='email' placeholder='please input your Email'
+          <h4>Email</h4>
+          <InputForm type='email' placeholder='Like:xxxx@yyy.com'
             name='email' value={email} onChange={onChange}
           ></InputForm>
           <Separator className="separator"> </Separator>
         </Field>
+        {ErrorEmail}
         <Field>
-          <label>Password</label>
-          <InputForm type='password'placeholder='please input complex password'
+          <h4>Password</h4>
+          <InputForm type='password'placeholder='Your Password'
             name='password1' value={password1} onChange={onChange}
           ></InputForm>
           <Separator className="separator"> </Separator>
         </Field>
+        {ErrorLength}
         <Field>
-          <label>Confirm Password</label>
-          <InputForm type='password'placeholder='please confirm your password'
+          <h4>Confirm Password</h4>
+          <InputForm type='password'placeholder='Confirm'
             name='password2' value={password2} onChange={onChange}
           
           ></InputForm>
           <Separator className="separator"> </Separator>
         </Field>
-        <button type='submit' className='btn btn-primary'>Register</button>
+        {ErrorMatch}
+        {/* {password2} */}
+
+        <button type='submit' className='btn btn-primary' disabled={(name==='' || password1==='' || password2==='' || email==='') ?'disapled':''}>Register</button>
         
+        <h4>{message}</h4>
 
       </RegisterForm>
       
