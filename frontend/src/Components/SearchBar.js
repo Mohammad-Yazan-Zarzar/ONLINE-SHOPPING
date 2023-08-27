@@ -57,10 +57,12 @@ const SearchBar = () => {
     setProductName('')
   }
   return (
-    <Barbody className='container'onSubmit={submit}>
+    // <Barbody className='container'onSubmit={submit}>
+    <Barbody className='container'>
+
 
         <InputBar>
-          <Input placeholder='search' value={productName} onChange={(e)=>setProductName(e.target.value)} ></Input>
+          <Input placeholder='search' value={productName} onChange={(e)=>setProductName(e.target.value)} onSubmit={submit}></Input>
           <FcSearch></FcSearch>
         </InputBar>
         <SelectItem className="form-select" aria-label="Default select example" value={classType}  onChange={(e)=>{
