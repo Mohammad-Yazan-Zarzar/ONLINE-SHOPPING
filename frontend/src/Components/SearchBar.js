@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { FcSearch } from "react-icons/fc";
 import {useSelector,useDispatch}from 'react-redux';
 import{reset,insertNewProduct,getProducts,deleteProduct,getProductByName, getProductByClass} from '../features/Products/productSlice'
-const Barbody=styled.form`
+const Barbody=styled.div`
   width: 100%;
   /* background-color: #222; */
   border-bottom-left-radius:10px ;
@@ -60,14 +60,14 @@ const SearchBar = () => {
   }
   return (
     // <Barbody className='container'onSubmit={submit}>
-    <Barbody className='container'>
+    <Barbody className='container' >
 
 
         <InputBar>
           <Input placeholder='search' value={productName} onChange={(e)=>{
             setProductName(e.target.value)
             products.filter(item=>item.productName.includes(e.target.value))
-          }}></Input>
+          }}onSubmit={submit}></Input>
           <FcSearch></FcSearch>
         </InputBar>
         <SelectItem className="form-select" aria-label="Default select example" value={classType}  onChange={(e)=>{
