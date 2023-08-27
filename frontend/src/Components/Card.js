@@ -131,7 +131,7 @@ const Card = (props) => {
             <div>
               <LazyLoad>
 
-              <CardImg src={imgUrl+props.item.brandName+'/'+props.item.brandLogo} className="card-img-top"></CardImg>
+                <CardImg src={imgUrl+props.item.brandName+'/'+props.item.brandLogo} className="card-img-top"></CardImg>
               </LazyLoad>
 
             </div>

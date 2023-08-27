@@ -118,12 +118,14 @@ const deleteProduct=asyncHandler(async(req,res)=>{
     // res.status(200).json({message:`Update products ${req.params.id}`})
 })
 const getProductByName=asyncHandler(async(req,res)=>{
+    // const product=await Products.find({productName:req.params.productName})
     const product=await Products.find({productName:req.params.productName})
-    if(!product){
+    const filterProduct=product.filter(item=>item.productName.includes(req.params.productName))
+    if(!filterProduct){
         res.status(400)
         throw new Error('Product not found')
     }
-    res.status(200).json(product)
+    res.status(200).json(filterProduct)
 
 })
 const getProductByClass=asyncHandler(async(req,res)=>{
