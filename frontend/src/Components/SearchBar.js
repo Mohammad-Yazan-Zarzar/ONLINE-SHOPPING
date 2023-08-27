@@ -18,7 +18,7 @@ const Barbody=styled.div`
 
 
 `
-const InputBar=styled.div`
+const InputBar=styled.form`
   width: 80%;
   border-radius: 10px;
   border: 1px solid #83c5be;
@@ -63,11 +63,11 @@ const SearchBar = () => {
     <Barbody className='container' >
 
 
-        <InputBar>
+        <InputBar onSubmit={submit}>
           <Input placeholder='search' value={productName} onChange={(e)=>{
             setProductName(e.target.value)
             products.filter(item=>item.productName.includes(e.target.value))
-          }}onSubmit={submit}></Input>
+          }}></Input>
           <FcSearch></FcSearch>
         </InputBar>
         <SelectItem className="form-select" aria-label="Default select example" value={classType}  onChange={(e)=>{
