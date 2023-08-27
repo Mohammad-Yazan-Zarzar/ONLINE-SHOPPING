@@ -42,6 +42,8 @@ const SelectItem=styled.select`
   width:100px;
 `
 const SearchBar = () => {
+  const{newProduct,deletedProduct,products,isLoadingProduct,isErrorProduct,isSuccessProduct,message}=useSelector((state)=>state.product)
+
   const dispatch=useDispatch()
   const [classType,setClassType]=useState('Select the Product Class')
   const[productName,setProductName]=useState('')
@@ -62,7 +64,10 @@ const SearchBar = () => {
 
 
         <InputBar>
-          <Input placeholder='search' value={productName} onChange={(e)=>setProductName(e.target.value)} onSubmit={submit}></Input>
+          <Input placeholder='search' value={productName} onChange={(e)=>{
+            setProductName(e.target.value)
+            products.filter(item=>item.productName.includes(e.target.value))
+          }}></Input>
           <FcSearch></FcSearch>
         </InputBar>
         <SelectItem className="form-select" aria-label="Default select example" value={classType}  onChange={(e)=>{
