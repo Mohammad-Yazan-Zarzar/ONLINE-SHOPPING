@@ -119,7 +119,7 @@ const deleteProduct=asyncHandler(async(req,res)=>{
 })
 const getProductByName=asyncHandler(async(req,res)=>{
     // const product=await Products.find({productName:req.params.productName})
-    const product=await Products.find({productName:req.params.productName})
+    const product=await Products.find()
     const filterProduct=product.filter(item=>item.productName.includes(req.params.productName))
     if(!filterProduct){
         res.status(400)
